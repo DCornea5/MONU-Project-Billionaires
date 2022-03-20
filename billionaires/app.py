@@ -51,7 +51,7 @@ def send():
 
 @app.route("/api/Billionaires")
 def pals():
-    results = db.session.query(Billionaires.Counts, Billionaires.latitude, Billionaires.longitude).all()
+    results = db.session.query(Billionaires.counts, Billionaires.latitude, Billionaires.longitude).all()
 
     hover_text = [result[0] for result in results]
     lat = [result[1] for result in results]

@@ -1,4 +1,4 @@
-from billionairesdc.app import db
+from billionaires.app import db
 
 db.drop_all()
 db.create_all()
