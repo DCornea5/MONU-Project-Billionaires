@@ -49,7 +49,7 @@ function createMap(bData,countData) {
   );
     }
 
- // billionaires where are they     
+ // billionaires locations     
     let bcounting = L.geoJSON(countData, {
   
       onEachFeature: makePolyline,
@@ -133,8 +133,8 @@ function createMap(bData,countData) {
   };
 
   var overlayMaps = {
-    Billionaires: billionaires,
-    Where_are_they : bcounting
+    Billionaires_Net_Worth: billionaires,
+    Location : bcounting
   };
 
   var myMap = L.map("map", {
