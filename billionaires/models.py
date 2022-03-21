@@ -3,7 +3,7 @@ from .app import db
 
 
 class bdc(db.Model):
-    __tablename__ = 'Billionaires'
+    __tablename__ = 'billionaires'
 
     ID = db.Column(db.Integer, primary_key=True)
     Name = db.Column(db.String(64))
@@ -17,7 +17,7 @@ class bdc(db.Model):
     latitude = db.Column(db.Float)
     Counts = db.Column(db.Float)
     def __repr__(self):
-        return '<Billionaires %r>' % (self.name)
+        return '<billionaires %r>' % (self.name)
 
 
        
