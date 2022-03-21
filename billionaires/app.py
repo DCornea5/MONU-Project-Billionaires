@@ -24,7 +24,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
-from .models import Billionaires
+from .models import billionaires
 
 
 # create route that renders index.html template
@@ -37,21 +37,24 @@ def home():
 @app.route("/send", methods=["GET", "POST"])
 def send():
     if request.method == "POST":
-        Counts = request.form["Counts"]
+        name = request.form["Name"]
+        country = request.form["Country"]
+        counts = request.form["Counts"]
+        networth = request.form["NetWorth"]
         lat = request.form["latitude"]
         lon = request.form["longitude"]
 
-        Billionaires = Billionaires(Country=Counts, lat=lat, lon=lon)
-        db.session.add(Billionaires)
+        billionaires = billionaires(name=name, country=country,counts=counts, networth=networth, lat=lat, lon=lon)
+        db.session.add(billionaires)
         db.session.commit()
         return redirect("/", code=302)
 
     return render_template("form.html")
 
 
-@app.route("/api/Billionaires")
+@app.route("/api/billionaires")
 def pals():
-    results = db.session.query(Billionaires.counts, Billionaires.latitude, Billionaires.longitude).all()
+    results = db.session.query(billionaires.name, billionaires.country, billionaires.counts, billionaires.networth, billionaires.lat, billionaires.lon).all()
 
     hover_text = [result[0] for result in results]
     lat = [result[1] for result in results]
