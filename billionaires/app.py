@@ -8,6 +8,8 @@ from flask import (
     request,
     redirect)
 from sympy import source
+from sqlalchemy.orm import Session
+from sqlalchemy import  Column, Integer, String, Float, JSON
 
 #################################################
 # Flask Setup
@@ -20,12 +22,16 @@ app = Flask(__name__)
 
 from flask_sqlalchemy import SQLAlchemy
 
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', '') or "sqlite:///db.sqlite"
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', '') or "postgresql://postgres:postgres@localhost:5432/billionaires"
+# or "sqlite:///db.sqlite"
+
 
 # Remove tracking modifications
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
+db.drop_all()
+db.create_all()
 
 from .models import Billionaires
 
@@ -33,7 +39,7 @@ from .models import Billionaires
 # create route that renders index.html template
 @app.route("/")
 def home():
-    return render_template("form.html")
+    return render_template("index_leaflet.html")
 
 
 # Query the database and send the jsonified results
