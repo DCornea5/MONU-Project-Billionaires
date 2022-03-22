@@ -1,11 +1,13 @@
 # import necessary libraries
 import os
+from unicodedata import name
 from flask import (
     Flask,
     render_template,
     jsonify,
     request,
     redirect)
+from sympy import source
 
 #################################################
 # Flask Setup
@@ -17,6 +19,7 @@ app = Flask(__name__)
 #################################################
 
 from flask_sqlalchemy import SQLAlchemy
+
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', '') or "sqlite:///db.sqlite"
 
 # Remove tracking modifications
@@ -24,13 +27,13 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
-from .models import billionaires
+from .models import Billionaires
 
 
 # create route that renders index.html template
 @app.route("/")
 def home():
-    return render_template("index_leaflet.html")
+    return render_template("form.html")
 
 
 # Query the database and send the jsonified results
@@ -39,12 +42,17 @@ def send():
     if request.method == "POST":
         name = request.form["Name"]
         country = request.form["Country"]
-        counts = request.form["Counts"]
+                    
         networth = request.form["NetWorth"]
+        age = request.form["Age"]
+        source = request.form["Source"]
+        rank = request.form["Rank"]
+        
         lat = request.form["latitude"]
         lon = request.form["longitude"]
+      
 
-        billionaires = billionaires(name=name, country=country,counts=counts, networth=networth, lat=lat, lon=lon)
+        billionaires = billionaires(name=name, country=country, networth=networth, age= age, source =source, rank = rank, lat=lat, lon=lon)
         db.session.add(billionaires)
         db.session.commit()
         return redirect("/", code=302)
@@ -54,11 +62,17 @@ def send():
 
 @app.route("/api/billionaires")
 def pals():
-    results = db.session.query(billionaires.name, billionaires.country, billionaires.counts, billionaires.networth, billionaires.lat, billionaires.lon).all()
+    results = db.session.query(Billionaires.name, Billionaires.country, Billionaires.networth, Billionaires.age, Billionaires.source, Billionaires.rank, Billionaires.lat, Billionaires.lon,).all()
 
     hover_text = [result[0] for result in results]
-    lat = [result[1] for result in results]
-    lon = [result[2] for result in results]
+    name = [result[1] for result in results]
+    country = [result[2] for result in results]
+    networth = [result[3] for result in results]
+    age = [result[4] for result in results]
+    source = [result[5] for result in results] 
+    rank = [result[6] for result in results]
+    lat = [result[7] for result in results]
+    lon = [result[8] for result in results]
 
     billionaires_data = [{
         "type": "scattergeo",
