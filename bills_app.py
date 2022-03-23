@@ -14,7 +14,7 @@ import datetime as dt
 # Import file scrap_billsthat contains all scrapping functions
 #################################################
 import scrape_bills
-
+from config import password
 
 #################################################
 # Create an instance of Flask, set static url path as coded in .html files
@@ -26,7 +26,9 @@ app = Flask(__name__,
 
 CORS(app)
 
-connect_string = 'mongodb+srv://DC:<password>@cluster0.d6noj.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
+
+
+connect_string = 'mongodb+srv://bpr:PpeorELP1XJAow8j@cluster0.d6noj.mongodb.net/test'
 # client = MongoClient(connect_string)
 # db = client.get_default_database()
 

@@ -1,3 +1,4 @@
+
 from billionaires_app.app import db
 
 # db.drop_all()
