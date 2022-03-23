@@ -8,6 +8,8 @@ from flask_cors import CORS
 from pymongo import MongoClient
 import datetime as dt
 
+
+
 #################################################
 # Import file scrap_billsthat contains all scrapping functions
 #################################################
@@ -23,10 +25,16 @@ app = Flask(__name__,
             template_folder='templates/')
 
 CORS(app)
+
+connect_string = 'mongodb+srv://DC:<password>@cluster0.d6noj.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
+# client = MongoClient(connect_string)
+# db = client.get_default_database()
+
+
 #################################################
 # Use PyMongo to establish Mongo connection for database mars_app
 #################################################
-mongo = PyMongo(app, uri="mongodb://localhost:27017/billionaires_app")
+mongo = PyMongo(app, uri=connect_string)
 
 
 #################################################
