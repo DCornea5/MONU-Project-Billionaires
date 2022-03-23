@@ -1,1 +1,1 @@
-web: gunicorn billionaires.app:app
+web: gunicorn billionaires_app.app:app
